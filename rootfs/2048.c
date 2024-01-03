@@ -311,18 +311,17 @@ int keypress()
 {
     // loop until we get valid input
     while (1) {
-        if (getchar() == 3) // ctr-c
-            exit(0);
-        getchar();
         switch (getchar()) {
-        case 'A':
+        case 'w':
             return DIRECTION_UP;
-        case 'B':
+        case 's':
             return DIRECTION_DOWN;
-        case 'C':
+        case 'd':
             return DIRECTION_RIGHT;
-        case 'D':
+        case 'a':
             return DIRECTION_LEFT;
+        case 3: // ctr-c
+            exit(0);
         }
     }
     /* NOTREACHED */

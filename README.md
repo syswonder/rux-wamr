@@ -42,7 +42,7 @@ Run the 2048 game in ruxos using the following command:
 make A=apps/c/wamr ARCH=aarch64 LOG=info SMP=4 run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,/2048.wasm"
 ```
 
-Input `A/B/C/D` to enjoy the game.
+Input `w/a/s/d` to enjoy the game.
 
 # Further
 
