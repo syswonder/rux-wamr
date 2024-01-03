@@ -1,25 +1,25 @@
 
 # What's this?
 
-This is an application to run wasm on Ruxos using [WAMR](https://github.com/bytecodealliance/wasm-micro-runtime), which is a wasm runtime developed by Intel and currently belongs to the [Bytecode Alliance](https://github.com/bytecodealliance).
+This is an application to run wasm on RuxOS using [WAMR](https://github.com/bytecodealliance/wasm-micro-runtime), which is a wasm runtime developed by Intel and currently belongs to the [Bytecode Alliance](https://github.com/bytecodealliance).
 
-The `main.wasm` and other wasm files is compiled from `.c` files in `rootfs/` using the WASM compiler. The `rootfs/` is a minimal rootfs for ruxos in this application.
+The `main.wasm` and other wasm files  in `rootfs/`is compiled from `.c` files using the WASM compiler. The `rootfs/` is a minimal rootfs for RuxOS in this application using 9pfs.
 
 # How to build?
 
 The compilation of `WAMR` depends on `cmake`.
 
-Take the 2048 game as an example. To run 2048, you need to compile the `2048.wasm` wasm file first.
+To run your custom wasm application in RuxOS, you need to compile the wasm file first, or you can use the pre-compiled wasm file in the `rootfs/` as a demo.
 
-We use `wasi-sdk` to compile the `2048` wasm file. You can download the `wasi-sdk` from [here](https://github.com/WebAssembly/wasi-sdk). Or you can use other wasm compiler.
+We use `wasi-sdk` to compile the wasm file. You can download the `wasi-sdk` from [here](https://github.com/WebAssembly/wasi-sdk). Or you can use other wasm compiler.
 
-In the path of 2048.c, use the following command to compile the `2048` wasm file:
+In the path of your application file `main.c`, use the following command to compile the wasm file:
 
 ```bash
-<the path to `wasi-sdk`>/bin/clang -O3 -o 2048.wasm 2048.c
+$WASI_SDK_DIR/bin/clang -O3 -o main.wasm main.c
 ```
 
-Or you can put the `2048.wasm` file from somewhere else into the rootfs.
+Or you can put the `main.wasm` file from somewhere else into the rootfs.
 
 
 # How to run?
