@@ -7,6 +7,8 @@ The `main.wasm` and other wasm files is compiled from `.c` files in `rootfs/` us
 
 # How to build?
 
+The compilation of `WAMR` depends on `cmake`.
+
 Take the 2048 game as an example. To run 2048, you need to compile the `2048.wasm` wasm file first.
 
 We use `wasi-sdk` to compile the `2048` wasm file. You can download the `wasi-sdk` from [here](https://github.com/WebAssembly/wasi-sdk). Or you can use other wasm compiler.
@@ -40,7 +42,7 @@ Run the 2048 game in ruxos using the following command:
 make A=apps/c/wamr ARCH=aarch64 LOG=info SMP=4 run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,/2048.wasm"
 ```
 
-Input `A/B/C/D` to enjoy the game.
+Input `w/a/s/d` to enjoy the game.
 
 # Further
 
