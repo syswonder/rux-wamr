@@ -3,11 +3,6 @@
 
 cmake_minimum_required (VERSION 3.14)
 
-set (CMAKE_C_COMPILER "aarch64-linux-musl-gcc")
-set (CMAKE_CXX_COMPILER "aarch64-linux-musl-g++")
-set (CMAKE_AR "aarch64-linux-musl-ar" CACHE FILEPATH "" FORCE)
-set (CMAKE_RANLIB "aarch64-linux-musl-ranlib")
-
 include(CheckPIESupported)
 
 project (iwasm)
