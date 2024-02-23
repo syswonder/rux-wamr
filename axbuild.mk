@@ -26,8 +26,9 @@ $(APP)/$(app-objs): build_wamr
 build_wamr: $(wamr-dir) $(APP)/axbuild.mk
 	mkdir -p $(wamr_product_dir) && cp -r $(wamr_product_dir)/../linux/* $(wamr_product_dir) && cp $(APP)/CMakeLists.txt $(wamr_product_dir)
 	cd $(wamr_product_dir) && mkdir -p build && cd build && \
-		$(CMAKE) .. -D CMAKE_C_COMPILER=$(C_COMPILER) -D CMAKE_CXX_COMPILER=$(CXX_COMPILER) -D CMAKE_AR=$(AR) -D CMAKE_RANLIB=$(RANLIB) -DWAMR_BUILD_TARGET=$(ARCH_UPPER) -DWAMR_DISABLE_HW_BOUND_CHECK=1 -DWAMR_DISABLE_WRITE_GS_BASE=1 && $(MAKE) -j
-	cp $(wamr_product_build)/libiwasm.a $(app-objs)
+		$(CMAKE) .. -D CMAKE_C_COMPILER=$(C_COMPILER) -D CMAKE_CXX_COMPILER=$(CXX_COMPILER) -D CMAKE_AR=$(AR) -D CMAKE_RANLIB=$(RANLIB) -DWAMR_BUILD_TARGET=$(ARCH_UPPER) -DWAMR_DISABLE_HW_BOUND_CHECK=1 -DWAMR_DISABLE_WRITE_GS_BASE=1 -DWAMR_BUILD_WASI_NN=1 && $(MAKE) -j
+# cp $(wamr_product_build)/libiwasm.a $(app-objs)
+	$(LD) -o $(app-objs) $(wamr_product_build)/libiwasm.a $(wamr_product_build)/tensorflow-lite/libtensorflow-lite.a -nostdlib -static -no-pie -r -e main /usr/lib32/libstdc++.so.6
 
 clean_c::
 	rm -rf $(wamr_product_build)
