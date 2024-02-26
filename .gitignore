@@ -2,3 +2,4 @@ wasm-micro-runtime-*
 *.bin
 *.elf
 *.o
+__pycache__

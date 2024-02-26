@@ -151,20 +151,23 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wformat -Wformat-securit
 
 include (${SHARED_DIR}/utils/uncommon/shared_uncommon.cmake)
 
-add_library (iwasm main.c ${UNCOMMON_SHARED_SOURCE} ${WAMR_RUNTIME_LIB_SOURCE})
+# add_executable (iwasm main.c ${UNCOMMON_SHARED_SOURCE} ${WAMR_RUNTIME_LIB_SOURCE})
 
-set_target_properties (iwasm PROPERTIES POSITION_INDEPENDENT_CODE ON)
+# set_target_properties (iwasm PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-install (TARGETS iwasm DESTINATION bin)
+# install (TARGETS iwasm DESTINATION bin)
 
-target_link_libraries (iwasm ${WAMR_RUNTIME_LIB_SOURCE} ${LLVM_AVAILABLE_LIBS} ${UV_A_LIBS} ${WASI_NN_LIBS})
+# target_link_libraries (iwasm ${LLVM_AVAILABLE_LIBS} ${UV_A_LIBS} ${WASI_NN_LIBS})
 
-# add_library (libiwasm SHARED ${WAMR_RUNTIME_LIB_SOURCE})
+add_library (libiwasm STATIC main.c ${UNCOMMON_SHARED_SOURCE} ${WAMR_RUNTIME_LIB_SOURCE})
 
-# install (TARGETS libiwasm DESTINATION lib)
+install (TARGETS libiwasm DESTINATION lib)
 
-# set_target_properties (libiwasm PROPERTIES OUTPUT_NAME iwasm)
+set_target_properties (libiwasm PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-# target_link_libraries (libiwasm ${LLVM_AVAILABLE_LIBS} ${UV_A_LIBS} ${WASI_NN_LIBS} -lm -ldl -lpthread)
+set_target_properties (libiwasm PROPERTIES OUTPUT_NAME iwasm)
 
+# As a static library, libiwasm can not link with other static libraries through target_link_libraries.
+# Instead, we need to link with the static libraries in command line manually.
 
+target_link_libraries (libiwasm ${LLVM_AVAILABLE_LIBS} ${UV_A_LIBS} ${WASI_NN_LIBS})
