@@ -49,8 +49,7 @@ Input `w/a/s/d` to enjoy the game.
 If you want to run WAMR with NN (Neural Network) support, you need to run `make` command with `WASI_NN=1`:
 
 ```bash
-# Only support x86_64 with wasi-nn currently
-make A=apps/c/wamr ARCH=x86_64 LOG=info run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/test_tensorflow.wasm" WASI_NN=1
+make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/test_tensorflow.wasm" WASI_NN=1
 ```
 
 If you want to compile the demo with NN support by yourself, you can run the following command in `apps/c/wamr/wasm-micro-runtime-{version}/core/iwasm/libraries/wasi-nn/test/` directory:

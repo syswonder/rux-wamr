@@ -28,9 +28,11 @@ $(wamr-dir):
 
 $(APP)/$(app-objs): build_wamr
 build_wamr: $(wamr-dir) $(APP)/axbuild.mk
-	mkdir -p $(wamr_product_dir) && cp -r $(wamr_product_dir)/../linux/* $(wamr_product_dir) && cp $(APP)/CMakeLists.txt $(wamr_product_dir)
+	mkdir -p $(wamr_product_dir) && cp -r $(wamr_product_dir)/../linux/* $(wamr_product_dir) && cp $(APP)/CMakeLists.txt $(APP)/*.cmake $(wamr_product_dir)
 	cd $(wamr_product_dir) && mkdir -p build && cd build && \
-		$(CMAKE) .. -DCMAKE_C_COMPILER=$(C_COMPILER) -DCMAKE_CXX_COMPILER=$(CXX_COMPILER) -DCMAKE_AR=$(AR) -DCMAKE_RANLIB=$(RANLIB) \
+		$(CMAKE) -DCMAKE_TOOLCHAIN_FILE=../$(ARCH)_toolchain.cmake .. \
+			-DCMAKE_C_COMPILER=$(C_COMPILER) -DCMAKE_CXX_COMPILER=$(CXX_COMPILER) -DCMAKE_AR=$(AR) -DCMAKE_RANLIB=$(RANLIB) \
+			-DCMAKE_C_FLAGS="-D__builtin___clear_cache=// " \
 			-DCMAKE_CXX_FLAGS="-D\"strtoll_l(s, e, b, l)=strtoll(s, e, b)\" -D\"strtoull_l(s, e, b, l)=strtoull(s, e, b)\"" \
 			-DWAMR_BUILD_TARGET=$(ARCH_UPPER) \
 			-DWAMR_DISABLE_HW_BOUND_CHECK=1 \
@@ -46,6 +48,7 @@ ifeq ($(WASI_NN), 1)
 		$(wamr_product_build)/libiwasm.a \
 		$(wamr_product_build)/tensorflow-lite/libtensorflow-lite.a \
 		$(CROSS_COMPILE_PATH)/*-linux-musl/lib/libstdc++.a \
+		$(CROSS_COMPILE_PATH)/*-linux-musl/lib/libatomic.a \
 		$(CROSS_COMPILE_PATH)/lib/gcc/*-linux-musl/*/libgcc_eh.a \
 		$(wamr_product_build)/libgcc/_clrsbsi2.o \
 		$(wamr_product_build)/_deps/xnnpack-build/libXNNPACK.a \
