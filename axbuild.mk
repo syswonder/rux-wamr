@@ -1,4 +1,4 @@
-wamr-version := 6dbfeb25dd164c0ffcec21806e1c1cd0dff27c58
+wamr-version := a43018ff72eb3a177bed9200a42f54274dfcc850
 wamr-dir := $(APP)/wasm-micro-runtime-$(wamr-version)
 
 CMAKE = cmake
