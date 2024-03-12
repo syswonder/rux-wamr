@@ -5,9 +5,7 @@ This is an application to run wasm on RuxOS using [WAMR](https://github.com/byte
 
 The `main.wasm` and other wasm files  in `rootfs/`is compiled from `.c` files using the WASM compiler. The `rootfs/` is a minimal rootfs for RuxOS in this application using 9pfs.
 
-# How to build?
-
-The compilation of `WAMR` depends on `cmake`.
+# How to build a `.wasm` file?
 
 To run your custom wasm application in RuxOS, you need to compile the wasm file first, or you can use the pre-compiled wasm file in the `rootfs/` as a demo.
 
@@ -19,10 +17,11 @@ In the path of your application file `main.c`, use the following command to comp
 $WASI_SDK_DIR/bin/clang -O3 -o main.wasm main.c
 ```
 
-Or you can put the `main.wasm` file from somewhere else into the rootfs.
-
+Or you can put the `*.wasm` file from somewhere else into the rootfs.
 
 # How to run?
+
+The compilation of `WAMR` depends on `cmake`.
 
 After you have compiled the `.wasm` file, you can run it in ruxos.
 
@@ -55,6 +54,7 @@ make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y NET=y V9P=y V9P_PATH=apps/c/
 If you want to compile the demo with NN support by yourself, you can run the following command in `apps/c/wamr/wasm-micro-runtime-{version}/core/iwasm/libraries/wasi-nn/test/` directory:
 
 ```bash
+# suppose you have installed wasi-sdk in /opt/wasi-sdk
 /opt/wasi-sdk/bin/clang \
     -Wl,--allow-undefined \
     -Wl,--strip-all,--no-entry \

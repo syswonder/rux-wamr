@@ -25,6 +25,7 @@ $(wamr-dir):
 	tar -zxf $(APP)/$(wamr-version).tar.gz -C $(APP) && rm -f $(APP)/$(wamr-version).tar.gz
 	cd $(wamr-dir) && git init && git add .
 	patch -p1 -N -d $(wamr-dir) --no-backup-if-mismatch -r - < $(APP)/wamr.patch
+	patch -p1 -N -d $(wamr-dir) --no-backup-if-mismatch -r - < $(APP)/wasi_ephemeral_nn.patch
 
 $(APP)/$(app-objs): build_wamr
 build_wamr: $(wamr-dir) $(APP)/axbuild.mk
@@ -38,7 +39,8 @@ build_wamr: $(wamr-dir) $(APP)/axbuild.mk
 			-DWAMR_DISABLE_HW_BOUND_CHECK=1 \
 			-DWAMR_DISABLE_WRITE_GS_BASE=1 \
 			-DWAMR_BUILD_WASI_NN=$(WASI_NN) \
-			-DFLATBUFFERS_LOCALE_INDEPENDENT=1 && \
+			-DFLATBUFFERS_LOCALE_INDEPENDENT=1 \
+			-UMADV_HUGEPAGE && \
 		$(MAKE) -j
 	mkdir -p $(wamr_product_build)/libgcc && cd $(wamr_product_build)/libgcc && \
 		ln -s -f $(CROSS_COMPILE_PATH)/lib/gcc/*-linux-musl/*/libgcc.a ./ && \
