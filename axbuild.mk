@@ -15,6 +15,10 @@ ifndef $(WASI_NN)
 WASI_NN = 0
 endif
 
+ifndef $(WASI_NN_LOG_LEVEL)
+WASI_NN_LOG_LEVEL = 1
+endif
+
 app-objs := wamr.o
 wamr_product_dir = $(wamr-dir)/product-mini/platforms/ruxos
 wamr_product_build = $(wamr_product_dir)/build
@@ -33,8 +37,8 @@ build_wamr: $(wamr-dir) $(APP)/axbuild.mk
 	cd $(wamr_product_dir) && mkdir -p build && cd build && \
 		$(CMAKE) -DCMAKE_TOOLCHAIN_FILE=../$(ARCH)_toolchain.cmake .. \
 			-DCMAKE_C_COMPILER=$(C_COMPILER) -DCMAKE_CXX_COMPILER=$(CXX_COMPILER) -DCMAKE_AR=$(AR) -DCMAKE_RANLIB=$(RANLIB) \
-			-DCMAKE_C_FLAGS="-D__builtin___clear_cache=// " \
-			-DCMAKE_CXX_FLAGS="-D\"strtoll_l(s, e, b, l)=strtoll(s, e, b)\" -D\"strtoull_l(s, e, b, l)=strtoull(s, e, b)\"" \
+			-DCMAKE_C_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D__builtin___clear_cache=// " \
+			-DCMAKE_CXX_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D\"strtoll_l(s, e, b, l)=strtoll(s, e, b)\" -D\"strtoull_l(s, e, b, l)=strtoull(s, e, b)\"" \
 			-DWAMR_BUILD_TARGET=$(ARCH_UPPER) \
 			-DWAMR_DISABLE_HW_BOUND_CHECK=1 \
 			-DWAMR_DISABLE_WRITE_GS_BASE=1 \
@@ -67,6 +71,8 @@ else
 endif
 
 clean_c::
-	rm -rf $(wamr_product_build)
+	rm -f $(wamr_product_build)/
+	rm -rf $(wamr_product_build)/_deps
+	rm -rf $(wamr_product_build)/CMakeFiles
 
 .PHONY: build_wamr clean_c

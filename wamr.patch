@@ -46,15 +46,3 @@
  #if WASM_ENABLE_LIBC_WASI != 0
  #include "../common/libc_wasi.c"
  #endif
-
---- /core/iwasm/libraries/libc-wasi/sandboxed-system-primitives/src/posix.c
-+++ /core/iwasm/libraries/libc-wasi/sandboxed-system-primitives/src/posix.c
-@@ -1390,7 +1390,7 @@ path_get(wasm_exec_env_t exec_env, struct fd_table *curfds,
-             // a slash or the symlink-follow flag is set, perform symlink
-             // expansion.
-             if (ends_with_slashes
--                || (flags & __WASI_LOOKUP_SYMLINK_FOLLOW) != 0) {
-+                && (flags & __WASI_LOOKUP_SYMLINK_FOLLOW) != 0) {
-                 error =
-                     readlinkat_dup(fds[curfd], file, &symlink_len, &symlink);
-                 if (error == __WASI_ESUCCESS) {
