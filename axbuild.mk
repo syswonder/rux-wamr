@@ -10,6 +10,8 @@ CXX_COMPILER := $(shell which $(CC))
 AR := $(shell which $(AR))
 RANLIB := $(shell which $(RANLIB))
 CROSS_COMPILE_PATH := $(shell dirname $(C_COMPILER))/..
+C_INCLUDE_DIR := -I$(CROSS_COMPILE_PATH)/$(ARCH)-linux-musl/include/ -I$(CROSS_COMPILE_PATH)/lib/gcc/$(ARCH)-linux-musl/11.2.1/include/
+CPP_INCLUDE_DIR := -I$(CROSS_COMPILE_PATH)/$(ARCH)-linux-musl/include/c++/11.2.1/ -I$(CROSS_COMPILE_PATH)/$(ARCH)-linux-musl/include/c++/11.2.1/$(ARCH)-linux-musl/ $(C_INCLUDE_DIR)
 
 ifndef $(WASI_NN)
 WASI_NN = 0
@@ -37,8 +39,8 @@ build_wamr: $(wamr-dir) $(APP)/axbuild.mk
 	cd $(wamr_product_dir) && mkdir -p build && cd build && \
 		$(CMAKE) -DCMAKE_TOOLCHAIN_FILE=../$(ARCH)_toolchain.cmake .. \
 			-DCMAKE_C_COMPILER=$(C_COMPILER) -DCMAKE_CXX_COMPILER=$(CXX_COMPILER) -DCMAKE_AR=$(AR) -DCMAKE_RANLIB=$(RANLIB) \
-			-DCMAKE_C_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D__builtin___clear_cache=// " \
-			-DCMAKE_CXX_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D\"strtoll_l(s, e, b, l)=strtoll(s, e, b)\" -D\"strtoull_l(s, e, b, l)=strtoull(s, e, b)\"" \
+			-DCMAKE_C_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D__builtin___clear_cache=// $(C_INCLUDE_DIR) $(CFLAGS)" \
+			-DCMAKE_CXX_FLAGS="-DNN_LOG_LEVEL=$(WASI_NN_LOG_LEVEL) -D\"strtoll_l(s, e, b, l)=strtoll(s, e, b)\" -D\"strtoull_l(s, e, b, l)=strtoull(s, e, b)\" $(CPP_INCLUDE_DIR) $(CFLAGS)" \
 			-DWAMR_BUILD_TARGET=$(ARCH_UPPER) \
 			-DWAMR_DISABLE_HW_BOUND_CHECK=1 \
 			-DWAMR_DISABLE_WRITE_GS_BASE=1 \
