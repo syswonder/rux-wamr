@@ -64,6 +64,8 @@ If you want to compile the demo with NN support by yourself, you can run the fol
     test_tensorflow.c utils.c
 ```
 
+And if you want to compile **c++** file to wasm, you may need to link c++ library by adding `-lc++` and `-lc++abi` in the command above.
+
 And copy the `test_tensorflow.wasm` to the `apps/c/wamr/rootfs/` directory:
 
 ```bash
