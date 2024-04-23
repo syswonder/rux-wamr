@@ -1,4 +1,4 @@
-wamr-version := ca364eb5d7a42992748f4e3b57f2761995b9c2e4
+wamr-version := WAMR-2.0.0
 wamr-dir := $(APP)/wasm-micro-runtime-$(wamr-version)
 
 CMAKE = cmake
@@ -43,7 +43,7 @@ build_wamr: $(wamr-dir) $(APP)/axbuild.mk
 			-DWAMR_BUILD_WASI_EPHEMERAL_NN=$(WAMR_BUILD_WASI_EPHEMERAL_NN) \
 			-DFLATBUFFERS_LOCALE_INDEPENDENT=1 \
 			-UMADV_HUGEPAGE && \
-		$(MAKE) -j17
+		$(MAKE) -j$(nproc)
 	mkdir -p $(wamr_product_build)/libgcc && cd $(wamr_product_build)/libgcc && \
 		ln -s -f $(CROSS_COMPILE_PATH)/lib/gcc/*-linux-musl/*/libgcc.a ./ && \
 		$(AR) x libgcc.a _clrsbsi2.o
