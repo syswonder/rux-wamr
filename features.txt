@@ -4,9 +4,6 @@ fp_simd
 irq
 multitask
 fs
-net
-pipe
-epoll
-poll
 virtio-9p
 signal
+smp

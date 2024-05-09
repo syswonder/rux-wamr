@@ -48,7 +48,7 @@ Input `w/a/s/d` to enjoy the game.
 If you want to run WAMR with NN (Neural Network) support, you need to run `make` command with `WASI_NN=1`:
 
 ```bash
-make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/test_tensorflow.wasm" WASI_NN=1
+make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y SMP=4 V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/test_tensorflow.wasm" WASI_NN=1
 ```
 
 If you want to compile the demo with NN support by yourself, you can run the following command in `apps/c/wamr/wasm-micro-runtime-{version}/core/iwasm/libraries/wasi-nn/test/` directory:
@@ -80,7 +80,7 @@ Then run the `make` command above to enjoy the NN support in ruxos.
 If you want to run WASM built from rust with wasi_nn support, you will need to add `WAMR_BUILD_WASI_EPHEMERAL_NN=1` argument in the make command. Because the module name of wasi_nn in rust is `wasi_ephemeral_nn`, instead of `wasi_nn`:
 
 ```bash
-make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y NET=y V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/built_from_rust.wasm" WASI_NN=1 WAMR_BUILD_WASI_EPHEMERAL_NN=1
+make A=apps/c/wamr ARCH=aarch64 LOG=info run MUSL=y SMP=4 V9P=y V9P_PATH=apps/c/wamr/rootfs ARGS="iwasm,--env="TARGET=cpu",--dir=.,/built_from_rust.wasm" WASI_NN=1 WAMR_BUILD_WASI_EPHEMERAL_NN=1
 ```
 
 # Further
